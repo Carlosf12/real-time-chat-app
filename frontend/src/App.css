@@ -192,3 +192,208 @@
     font-weight: bold;
     color: #3498db;
   }
+
+  /* Add these styles to your existing App.css */
+
+.username-display {
+  background: #34495e;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username-text {
+  color: #ecf0f1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.change-username-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.change-username-btn:hover {
+  background: #c0392b;
+}
+
+/* Update existing sidebar styles */
+.sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-indicator.connected {
+  background: #4CAF50;
+}
+
+.status-indicator.disconnected {
+  background: #f44336;
+}
+
+/* Add these styles to your existing App.css */
+
+.username-button:disabled {
+  background: #bdc3c7;
+  color: #7f8c8d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.username-button:disabled:hover {
+  background: #bdc3c7;
+  color: #7f8c8d;
+}
+
+.username-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: rgba(139, 0, 0, 0.15);
+  border: 1px solid rgba(139, 0, 0, 0.4);
+  border-radius: 20px;
+  font-size: 13px;
+  color: #8b0000; /* Dark red - much more visible */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.hint-icon {
+  font-size: 14px;
+}
+
+.hint-text {
+  font-weight: 500;
+  color: #fff200; /* Dark red - much more visible */
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effect */
+.username-hint:hover {
+  background: rgba(139, 0, 0, 0.2);
+  border-color: rgba(139, 0, 0, 0.5);
+}
+
+.username-input {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  margin-right: 10px;
+  outline: none;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.username-input:focus {
+  border-color: #3498db;
+}
+
+/* Update existing username button styles */
+.username-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.username-button:hover:not(:disabled) {
+  background: #45a049;
+}
+
+/* Add these styles to your existing App.css */
+
+.username-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.username-input {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 2px solid #bdc3c7;
+  border-radius: 25px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  width: 300px;
+  text-align: center;
+}
+
+.username-input:focus {
+  border-color: #3498db;
+}
+
+.username-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  min-width: 120px;
+}
+
+.username-button:hover:not(:disabled) {
+  background: #45a049;
+}
+
+.username-button:disabled {
+  background: #bdc3c7;
+  color: #7f8c8d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.username-button:disabled:hover {
+  background: #bdc3c7;
+  color: #7f8c8d;
+}
+

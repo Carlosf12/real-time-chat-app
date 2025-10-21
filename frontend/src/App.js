@@ -7,6 +7,7 @@ import './App.css';
 function App() {
   const [currentRoom, setCurrentRoom] = useState('general');
   const [username, setUsername] = useState('');
+  const [inputValue, setInputValue] = useState(''); // Separate input state
   const [isConnected, setIsConnected] = useState(false);
   
   const socket = useSocket();
@@ -30,30 +31,45 @@ function App() {
     }
   }, [socket]);
 
-  const handleUsernameSubmit = (e) => {
-    e.preventDefault();
-    if (username.trim()) {
-      setUsername(username.trim());
+  const handleJoinChat = () => {
+    if (inputValue.trim().length >= 3) {
+      setUsername(inputValue.trim());
     }
   };
 
+  // Show username form if no username is set
   if (!username) {
     return (
       <div className="app">
         <div className="username-form">
           <h1>Welcome to Chat App</h1>
-          <form onSubmit={handleUsernameSubmit}>
+          <div className="username-input-group">
             <input
               type="text"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username (min 3 characters)"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && inputValue.trim().length >= 3) {
+                  handleJoinChat();
+                }
+              }}
               className="username-input"
             />
-            <button type="submit" className="username-button">
+            <button 
+              onClick={handleJoinChat}
+              className="username-button"
+              disabled={inputValue.trim().length < 3}
+            >
               Join Chat
             </button>
-          </form>
+          </div>
+          {inputValue.trim().length > 0 && inputValue.trim().length < 3 && (
+          <div className="username-hint">
+          <span className="hint-icon">⚠️</span>
+          <span className="hint-text">Minimum 3 characters</span>
+          </div>
+          )}
         </div>
       </div>
     );
@@ -67,7 +83,19 @@ function App() {
             <span className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></span>
             <span>{isConnected ? 'Connected' : 'Disconnected'}</span>
           </div>
-          <UserList username={username} />
+          <div className="username-display">
+            <span className="username-text">Logged in as: {username}</span>
+            <button 
+              onClick={() => {
+                setUsername('');
+                setInputValue('');
+              }} 
+              className="change-username-btn"
+            >
+              Change
+            </button>
+          </div>
+          <UserList username={username} socket={socket} />
         </div>
         <div className="main-chat">
           <ChatRoom 

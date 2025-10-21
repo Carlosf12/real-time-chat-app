@@ -1,8 +1,22 @@
 const Room = require('./models/Room');
 const User = require('./models/User');
 
+// Track connected users
+const connectedUsers = new Map();
+
 const handleSocketEvents = (io, socket) => {
   console.log('User connected:', socket.id);
+  
+  // Track user connection
+  socket.on('set_username', (data) => {
+    const { username } = data;
+    connectedUsers.set(socket.id, { username, isOnline: true });
+    
+    // Broadcast updated user list to all clients
+    const userList = Array.from(connectedUsers.values());
+    io.emit('user_list_updated', userList);
+    console.log('User list updated:', userList);
+  });
   
   // Join room event
   socket.on('join_room', async (data) => {
@@ -10,7 +24,14 @@ const handleSocketEvents = (io, socket) => {
       const { roomId, userId, username } = data;
       socket.join(roomId);
       
+      // Track user in room
+      connectedUsers.set(socket.id, { username, isOnline: true });
+      
       console.log(`User ${username} joined room ${roomId}`);
+      
+      // Broadcast updated user list
+      const userList = Array.from(connectedUsers.values());
+      io.emit('user_list_updated', userList);
       
       // Emit confirmation back to user
       socket.emit('joined_room', { 
@@ -21,7 +42,8 @@ const handleSocketEvents = (io, socket) => {
       // Notify other users in room
       socket.to(roomId).emit('user_joined', { 
         username,
-        message: `${username} joined the room` 
+        message: `${username} joined the room`,
+        userList
       });
       
     } catch (error) {
@@ -71,6 +93,18 @@ const handleSocketEvents = (io, socket) => {
   // Handle disconnection
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
+    
+    // Remove user from tracking
+    const user = connectedUsers.get(socket.id);
+    if (user) {
+      connectedUsers.delete(socket.id);
+      
+      // Broadcast updated user list
+      const userList = Array.from(connectedUsers.values());
+      io.emit('user_list_updated', userList);
+      
+      console.log('User list updated after disconnect:', userList);
+    }
   });
 };
 
