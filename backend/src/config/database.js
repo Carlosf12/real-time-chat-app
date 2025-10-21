@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
     try {
-        // Add fallback URI if .env fails
         const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/chat-app';
 
         console.log('Connecting to MongoDB with URI:', mongoURI);
@@ -15,21 +14,22 @@ const connectDB = async () => {
             socketTimeoutMS: 45000,
         });
 
-        console.log(`MongoDB connected: ${conn.connection.host}`);
+        console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+        console.log(`📊 Database: ${conn.connection.name}`);
 
         // Handle connection events
         mongoose.connection.on('error', (err) => {
-            console.error('MongoDB connection error:', err);
+            console.error('❌ MongoDB connection error:', err);
         });
 
         mongoose.connection.on('disconnected', () => {
-            console.log('MongoDB disconnected');
+            console.log('⚠️ MongoDB disconnected');
         });
 
     } catch (error) {
-        console.warn('MongoDB connection failed, but continuing without database:', error.message);
-        console.log('💡 Chat app will work without database - messages won\'t be saved');
-        // Don't exit the process, just continue without database
+        console.error('❌ Database connection failed:', error.message);
+        console.log('💡 Make sure MongoDB is running: brew services start mongodb/brew/mongodb-community');
+        process.exit(1);
 
     }
 };
