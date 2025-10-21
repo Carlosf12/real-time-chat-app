@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   const [currentRoom, setCurrentRoom] = useState('general');
   const [username, setUsername] = useState('');
-  const [inputValue, setInputValue] = useState(''); // Separate input state
+  const [inputValue, setInputValue] = useState(''); 
   const [isConnected, setIsConnected] = useState(false);
   
   const socket = useSocket();
@@ -42,7 +42,7 @@ function App() {
     return (
       <div className="app">
         <div className="username-form">
-          <h1>Welcome to Chat App</h1>
+          <h1>Welcome to Yeti Chat App</h1>
           <div className="username-input-group">
             <input
               type="text"
